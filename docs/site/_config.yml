@@ -1,0 +1,18 @@
+title: declarative-e2e-test
+baseurl: ''
+
+google_analytics: UA-97591265-1
+
+author_name: Marc Ed. Raffalli
+github_username:  marc-ed-raffalli
+github_repo:  https://github.com/marc-ed-raffalli/declarative-e2e-test
+
+copyright: © 2020 - Marc Ed. Raffalli
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - logo.drawio
+
+sass:
+  style: compressed
