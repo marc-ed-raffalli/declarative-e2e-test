@@ -1,0 +1,56 @@
+{
+  "name": "declarative-e2e-test",
+  "version": "0.1.0",
+  "description": "Declaration driven test generator for REST endpoints",
+  "main": "dist/lib/index.js",
+  "typings": "dist/lib/index.d.ts",
+  "files": [
+    "dist/lib/**/*"
+  ],
+  "keywords": [
+    "API",
+    "automation",
+    "e2e",
+    "HTTP",
+    "JS",
+    "REST",
+    "Supertest",
+    "test",
+    "TypeScript"
+  ],
+  "author": "Marc Ed Raffalli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marc-ed-raffalli/declarative-e2e-test"
+  },
+  "bugs": "https://github.com/marc-ed-raffalli/declarative-e2e-test/issues",
+  "scripts": {
+    "build": "run-s clean lint test compile",
+    "clean": "rm -rf dist",
+    "compile": "tsc -p .",
+    "test": "jest",
+    "test:watch": "yarn test --watchAll",
+    "test:coverage": "yarn test --coverage",
+    "coverage": "yarn test:coverage && coveralls < coverage/lcov.info",
+    "lint": "tslint -p . -c tslint.json",
+    "lint:fix": "yarn lint --fix",
+    "prepublishOnly": "yarn build",
+    "version": "git add -A .",
+    "postversion": "git push && git push --tags"
+  },
+  "dependencies": {
+    "declarative-test-structure-generator": "^1.0.2",
+    "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/supertest": "^2.0.9",
+    "coveralls": "^3.1.0",
+    "jest": "^26.0.1",
+    "npm-run-all": "^4.1.5",
+    "ts-jest": "^26.0.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3"
+  }
+}
