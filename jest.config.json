@@ -1,0 +1,15 @@
+{
+  "transform": {
+    "^.+\\.ts$": "ts-jest"
+  },
+  "testEnvironment": "node",
+  "testRegex": "/src/.*\\.test\\.ts$",
+  "testPathIgnorePatterns": [
+    "docs",
+    "examples"
+  ],
+  "moduleFileExtensions": [
+    "ts",
+    "js"
+  ]
+}

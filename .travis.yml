@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - lts/*
+  - node
+
+jobs:
+  include:
+    - stage:  'Build library and example'
+      script:
+        - yarn lint
+        - yarn compile
+        - cd examples/app-server
+        - yarn --frozen-lockfile
+        - yarn add -D ../..
+        - yarn build
+
+after_success: yarn coverage

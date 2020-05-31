@@ -1,0 +1,39 @@
+---
+permalink: /404.html
+layout: default
+---
+
+{% assign code="```typescript
+import {api, run, TestRequestSuiteDefinition} from 'declarative-e2e-test';
+
+const pageNotFound: TestRequestSuiteDefinition = {
+  'Error': {
+    tests: {
+      'page not found': {
+        url,
+        expect: 404
+      }
+    }
+  }
+};
+
+run(pageNotFound, {api: api.jest});
+```" %}
+
+<div class="row">
+  <div class="col-12 col-10 col-lg-10 col-xl-8 mx-auto">
+    <div class="text-center">
+      <h1 class="display-1">404</h1>
+
+      <p><strong>Page not found :(</strong></p>
+      <p>The requested page could not be found.</p>
+
+      <a href="https://marc-ed-raffalli.github.io/declarative-e2e-test">Back to the main page</a>
+    </div>
+
+    <div class="px-2">{{code | markdownify}}</div>
+  </div>
+</div>
+
+
+

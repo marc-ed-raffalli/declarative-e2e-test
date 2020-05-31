@@ -1,0 +1,100 @@
+---
+---
+
+//
+// Jekyll front matter
+// https://jekyllrb.com/docs/assets/
+//
+//
+// Copyright © 2020 Marc Ed. Raffalli
+// https://marc-ed-raffalli.github.io/
+
+$gap: .25rem;
+$darkGrey: #343a40;
+$light: #f8f9fa;
+
+@mixin applyHeaderSpacing($factor) {
+  margin-top: $gap * ($factor - 3);
+  padding-top: $gap * 3;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+h2 {
+  @include applyHeaderSpacing(14);
+}
+
+h3 {
+  @include applyHeaderSpacing(10);
+}
+
+h4 {
+  @include applyHeaderSpacing(6);
+}
+
+.side-menu {
+  &-container {
+    flex: 0 0 250px;
+    border-right: 1px solid;
+  }
+
+  a.active {
+    position: relative;
+    font-weight: bold;
+
+    &:before {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      content: '';
+      background: var(--blue);
+    }
+  }
+}
+
+.alert {
+  p {
+    margin: 0
+  }
+}
+
+div.highlight {
+  width: 100%;
+  padding: $gap * 2;
+  margin: $gap * 4 0;
+  border-radius: 4px;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
+  overflow: auto;
+
+  pre {
+    margin: 0;
+  }
+}
+
+.light-theme {
+  .side-menu-container {
+    background-color: var(--light);
+    border-right-color: var(--gray);
+  }
+
+  code.language-plaintext {
+    color: lighten($darkGrey, 30) !important;
+  }
+}
+
+.dark-theme {
+  .side-menu-container {
+    background-color: darken($light, 70);
+    border-right-color: var(--secondary);
+  }
+
+  .content {
+    color: lighten($darkGrey, 70);
+    background-color: lighten($darkGrey, 10);
+  }
+}
