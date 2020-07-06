@@ -1,6 +1,7 @@
 import {agent as sTMock} from 'supertest';
 import {ITestedRequest} from './models';
 import {IEvaluatedProps, TestedRequest} from './tested-request';
+import Mock = jest.Mock;
 
 // @ts-ignore - issue with typings (?)
 const superTestMock: () => ReturnType<typeof sTMock> & { expect: any, send: any } = sTMock;
@@ -176,7 +177,7 @@ describe('TestedRequest', () => {
       expect(testedRequest.initializeAgent).toHaveBeenCalledWith(stub);
       expect(testedRequest.applyHeaders).toHaveBeenCalledWith(stub);
       expect(testedRequest.applyBody).toHaveBeenCalledWith(stub);
-      expect(testedRequest.applyExpect).toHaveBeenCalledWith(stub, expect.any(Function));
+      expect(testedRequest.applyExpect).toHaveBeenCalledWith(stub, context, expect.any(Function));
     });
 
   });
@@ -248,12 +249,12 @@ describe('TestedRequest', () => {
       });
 
       it('evaluates headers', () => {
-        evaluatedProps.expect = [{headers: {foo: 'foo header', bar: ['bar-header-1', 'bar-header-2']}}];
+        evaluatedProps.expect = [{headers: {foo: 'foo header', bar: ['bar-header-1', /bar-header-2/]}}];
 
         testedRequest.applyExpect(evaluatedProps);
         expect(superTestMock().expect).toHaveBeenCalledWith('foo', 'foo header');
         expect(superTestMock().expect).toHaveBeenCalledWith('bar', 'bar-header-1');
-        expect(superTestMock().expect).toHaveBeenCalledWith('bar', 'bar-header-2');
+        expect(superTestMock().expect).toHaveBeenCalledWith('bar', /bar-header-2/);
       });
 
       it('evaluates headers + body', () => {
@@ -269,10 +270,12 @@ describe('TestedRequest', () => {
       });
 
       it('custom response callback', () => {
+        (superTestMock().expect as Mock).mockImplementationOnce((cb => cb({mockResponse: 'foo'})));
         evaluatedProps.expect = [jest.fn()];
 
         testedRequest.applyExpect(evaluatedProps);
-        expect(superTestMock().expect).toHaveBeenCalledWith(evaluatedProps.expect[0]);
+        expect(superTestMock().expect).toHaveBeenCalledWith(expect.any(Function));
+        expect(evaluatedProps.expect[0]).toHaveBeenCalledWith({mockResponse: 'foo'});
       });
 
       it('list of expectations', () => {

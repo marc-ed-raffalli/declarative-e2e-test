@@ -1,0 +1,57 @@
+---
+layout: compress
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{site.title}} {% if page.title %} - {{page.title}}{% endif %}</title>
+
+  <meta name="author" content="{{site.author_name}}">
+  <meta name="description" content="{{page.description}}">
+  <meta name="keywords" content="{{page.keywords | join: ' '}}">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="{{site.baseurl}}/assets/vendors/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="{{site.baseurl}}/assets/vendors/syntax-highlighting/monokai.css" rel="stylesheet">
+  <link href="{{site.baseurl}}/assets/site.css" rel="stylesheet">
+
+  {% if site.google_analytics and jekyll.environment == 'production' %}
+  {% include analytics.html %}
+  {% endif %}
+</head>
+<body class="h-100 d-flex flex-column">
+
+{% include navbar.html %}
+
+<div class="d-flex flex-column flex-grow-1 overflow-auto">
+
+  <div class="d-flex flex-grow-1 overflow-auto">
+    {% if page.sidemenu %}
+    <div class="border-right pt-2 overflow-auto bg-light pb-5">
+      {% include side-menu.html %}
+    </div>
+    <div class="flex-grow-1 content pl-3 pt-3 overflow-auto pr-3 pb-5"
+         data-spy="scroll"
+         data-target=".side-menu">
+      {{content}}
+    </div>
+    {% else %}
+    <div class="py-3 w-100">
+      {{content}}
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
+{% if page.sidemenu %}
+<script src="{{site.baseurl}}/assets/side-menu.js"></script>
+{% endif %}
+
+<script src="{{site.baseurl}}/assets/vendors/jquery/jquery-3.5.1.slim.min.js"></script>
+<script src="{{site.baseurl}}/assets/vendors/bootstrap/bootstrap.min.js"></script>
+
+</body>
+</html>

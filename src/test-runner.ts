@@ -12,7 +12,8 @@ export class TestRunner {
   constructor(private readonly testDefinition: TestSuiteDefinition, private readonly api: IApiMapper) {
   }
 
-  static buildTestRunner(testRequestSuiteDefinition: TestRequestSuiteDefinition, {api, config}: ITestConfig) {
+  static buildTestRunner(testRequestSuiteDefinition: TestRequestSuiteDefinition, {api, config, logLevel}: ITestConfig) {
+    Logger.setLogLevel(logLevel);
     logger.trace('Mapping the test request definitions to target definition');
     const testDefinition = reduceList(
       testRequestSuiteDefinition,

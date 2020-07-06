@@ -46,7 +46,7 @@ export class TestedRequest {
       this.initializeAgent(requestProps)
         .applyHeaders(requestProps)
         .applyBody(requestProps)
-        .applyExpect(requestProps, resolve);
+        .applyExpect(requestProps, context, resolve);
     });
   }
 
@@ -80,7 +80,7 @@ export class TestedRequest {
   }
 
   applyHeaders(requestProps: IEvaluatedProps): TestedRequest {
-    if (requestProps.headers) {
+    if (requestProps.headers && Object.keys(requestProps.headers).length !== 0) {
       logger.trace('Request headers applied:', requestProps.headers);
       this.agent = this.agent!.set(requestProps.headers);
     }
@@ -97,14 +97,15 @@ export class TestedRequest {
     return this;
   }
 
-  applyExpect(requestProps: IEvaluatedProps, done?: fnType): TestedRequest {
+  applyExpect(requestProps: IEvaluatedProps, context?: any, done?: fnType): TestedRequest {
     this.agent = requestProps.expect
       .reduce((agent, expect) => {
         switch (typeof expect) {
           case 'number':
           case 'string':
-          case 'function':
             return agent.expect(expect);
+          case 'function':
+            return agent.expect((response: Response) => expect.call(context, response));
 
           case 'object':
             const
@@ -170,9 +171,7 @@ function evaluateRequestDefinition(
   logger.trace(`Request URL in global config: "${globalRequestConfig.url}", test definition: ${requestProps.url}`);
   return {
     ...requestProps,
-    url: globalRequestConfig.url
-      ? `${globalRequestConfig.url}${requestProps.url}`
-      : requestProps.url,
+    url: `${globalRequestConfig.url || ''}${requestProps.url}`,
     headers: {
       ...globalRequestConfig.headers,
       ...requestProps.headers

@@ -1,4 +1,5 @@
 import {fnType} from '../models';
+import Mock = jest.Mock;
 
 interface ITestedApi {
   set: (...args: any) => ITestedApi;
@@ -23,7 +24,14 @@ const
     set: mockWithReturn(),
     send: mockWithReturn(),
     then: (cb) => cb(),
-    expect: mockWithReturn(),
+    expect: jest.fn()
+      .mockImplementation((arg1: any) => {
+        if (typeof arg1 === 'function') {
+          arg1();
+        }
+
+        return st;
+      }),
     end: mockWithReturn(),
 
     head: mockWithReturn(),
