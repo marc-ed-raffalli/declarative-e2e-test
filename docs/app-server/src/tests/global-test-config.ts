@@ -6,12 +6,12 @@ const url = 'http://127.0.0.1:3000';
 export const
   SERVER_URL = url,
   routes = {
-    status: SERVER_URL,
-    login: '/auth/login',
-    logout: '/auth/logout',
-    profileData: '/user/profile',
-    users: '/user/users',
-    resetTestData: '/reset-test-data'
+    status: '/',
+    login: '/api/auth/login',
+    logout: '/api/auth/logout',
+    profileData: '/api/user/profile',
+    users: '/api/user/users',
+    resetTestData: '/api/reset-test-data'
   };
 
 export const config: Omit<ITestConfig, 'api'> = {
