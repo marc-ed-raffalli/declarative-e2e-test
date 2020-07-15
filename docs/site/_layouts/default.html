@@ -21,7 +21,7 @@ layout: compress
   {% include analytics.html %}
   {% endif %}
 </head>
-<body class="h-100 d-flex flex-column">
+<body class="h-100 d-flex flex-column light-theme">
 
 {% include navbar.html %}
 
@@ -29,7 +29,7 @@ layout: compress
 
   <div class="d-flex flex-grow-1 overflow-auto">
     {% if page.sidemenu %}
-    <div class="border-right pt-2 overflow-auto bg-light pb-5">
+    <div class="side-menu-container pt-2 overflow-auto pb-5">
       {% include side-menu.html %}
     </div>
     <div class="flex-grow-1 content pl-3 pt-3 overflow-auto pr-3 pb-5"
@@ -47,6 +47,7 @@ layout: compress
 </div>
 
 {% if page.sidemenu %}
+<script src="{{site.baseurl}}/assets/site.js"></script>
 <script src="{{site.baseurl}}/assets/side-menu.js"></script>
 {% endif %}
 

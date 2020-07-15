@@ -10,6 +10,8 @@
 // https://marc-ed-raffalli.github.io/
 
 $gap: .25rem;
+$darkGrey: #343a40;
+$light: #f8f9fa;
 
 @mixin applyHeaderSpacing($factor) {
   margin-top: $gap * ($factor - 3);
@@ -34,6 +36,11 @@ h4 {
 }
 
 .side-menu {
+  &-container {
+    flex: 0 0 250px;
+    border-right: 1px solid;
+  }
+
   a.active {
     position: relative;
     font-weight: bold;
@@ -56,10 +63,6 @@ h4 {
   }
 }
 
-code.language-plaintext {
-  color: lighten(#343a40, 30) !important;
-}
-
 div.highlight {
   width: 100%;
   padding: $gap * 2;
@@ -70,5 +73,28 @@ div.highlight {
 
   pre {
     margin: 0;
+  }
+}
+
+.light-theme {
+  .side-menu-container {
+    background-color: var(--light);
+    border-right-color: var(--gray);
+  }
+
+  code.language-plaintext {
+    color: lighten($darkGrey, 30) !important;
+  }
+}
+
+.dark-theme {
+  .side-menu-container {
+    background-color: darken($light, 70);
+    border-right-color: var(--secondary);
+  }
+
+  .content {
+    color: lighten($darkGrey, 70);
+    background-color: lighten($darkGrey, 10);
   }
 }

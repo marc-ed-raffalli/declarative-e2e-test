@@ -44,12 +44,12 @@
     }
 
     scrollIntoView(document.querySelector(hash));
-    scrollIntoView(document.querySelector(`.side-menu a[href="${hash}"]`));
+    scrollIntoView(document.querySelector(`.side-menu a[href="${hash}"]`), 'nearest');
   }
 
-  function scrollIntoView(elt) {
+  function scrollIntoView(elt, block = 'start') {
     if (elt) {
-      elt.scrollIntoView({behavior: 'auto', block: 'nearest'});
+      elt.scrollIntoView({behavior: 'auto', block});
     }
   }
 

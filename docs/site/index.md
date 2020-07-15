@@ -671,10 +671,10 @@ The verification of the response is achieved via the `expect` property.
 As a wrapper for [Supertest][supertest], most of the API for the original `expect` is supported / wrapped.
 
 It is possible to define a default series of verifications to perform on all the responses,
-see global config TODO link
+see [global config](#global-expect)
 
 
-#### Assert Response Status
+#### Status
 
 Assert response `status` code (number only).
 
@@ -693,7 +693,7 @@ const verifyResponseStatus: TestRequestSuiteDefinition = {
 };
 ```
 
-#### Assert HTTP Headers
+#### Headers
 
 The assertion for headers supports few different types: `string`, `array` or `RegExp`.
 
@@ -724,7 +724,7 @@ const headersAssertion: TestRequestSuiteDefinition = {
 };
 ```
 
-#### Assert Response Body
+#### Body
 
 The assertion for response payload is as as described in the
 [Supertest docs](https://github.com/visionmedia/supertest/#expectbody-fn).
@@ -746,7 +746,7 @@ const bodyAssertion: TestRequestSuiteDefinition = {
 };
 ```
 
-#### Assert Response Headers and Body
+#### Headers and Body
 
 The assertions for the headers and the body can be written together using the structure
 `{header: expectedHeaderValue, body: expectedBodyValue}`:
@@ -920,6 +920,32 @@ run(testDefinition, {logLevel: 'TRACE', ...});
 ## Issues
 
 Please share your feedback and report the encountered issues on the [project's issues page][projectIssues].
+
+## License
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/marc-ed-raffalli/declarative-e2e-test/blob/master/LICENSE)
+
+MIT License
+
+Copyright (c) 2020 Marc-Ed Raffalli
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 [linkingLibrary]: #linking-the-test-library
