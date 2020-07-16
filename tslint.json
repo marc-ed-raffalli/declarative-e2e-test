@@ -32,6 +32,7 @@
     "object-literal-sort-keys": false,
     "object-literal-key-quotes": false,
     "one-variable-per-declaration": false,
+    "ordered-imports": true,
     "trailing-comma": [
       true,
       {

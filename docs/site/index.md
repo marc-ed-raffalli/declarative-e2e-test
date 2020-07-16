@@ -580,13 +580,14 @@ const settingRequestHeadersExample: TestRequestSuiteDefinition = {
 
 The request body can be set as a value, or as a callback returning a value.
 
-// TODO test async block supported
-
 ```typescript
 import {TestRequestSuiteDefinition} from 'declarative-e2e-test';
 
 const settingRequestBodyExample: TestRequestSuiteDefinition = {
   'Setting Request Body example': {
+    async beforeEach(this: any) {
+      this.userId = await getUserId();
+    },
     tests: {
       'body example - object': {
         url,
@@ -597,10 +598,12 @@ const settingRequestBodyExample: TestRequestSuiteDefinition = {
       'body example - async': {
         url,
         verb: 'PUT',
-        body: async () => ({
-          userId: await getUserId(),
-          name: 'John & Jane Doe'
-        }),
+        body(this: any) {
+          return {
+            userId: this.userId,
+            name: 'John & Jane Doe'
+          };
+        },
         expect: 200
       }
     }
@@ -788,9 +791,29 @@ const multipleAssertion: TestRequestSuiteDefinition = {
 };
 ```
 
-### Error callback
+#### Error callback
 
-// TODO
+When the test fails, an error is thrown.
+The `error` property is mapped to the supertest `catch`, it is called with the error and the received response.
+
+```typescript
+import {TestRequestSuiteDefinition} from 'declarative-e2e-test';
+import {Response} from 'supertest';
+
+const errorCallback: TestRequestSuiteDefinition = {
+  'Error Callback example': {
+    tests: {
+      'returns status 200': {
+        url: SERVER_URL,
+        expect: 200,
+        error: (error: any, response: Response) => {
+          // called when the test fails
+        }
+      }
+    }
+  }
+};
+```
 
 ## Global configuration
 

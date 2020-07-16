@@ -1,10 +1,10 @@
-import {agent as sTMock} from 'supertest';
+import {agent as sTMock, Response} from 'supertest';
 import {ITestedRequest} from './models';
 import {IEvaluatedProps, TestedRequest} from './tested-request';
 import Mock = jest.Mock;
 
 // @ts-ignore - issue with typings (?)
-const superTestMock: () => ReturnType<typeof sTMock> & { expect: any, send: any } = sTMock;
+const superTestMock: () => ReturnType<typeof sTMock> & { expect: any, send: any, catch: any } = sTMock;
 
 describe('TestedRequest', () => {
 
@@ -42,62 +42,49 @@ describe('TestedRequest', () => {
 
   describe('Supported verbs', () => {
 
-    function verifyRun(method: keyof ReturnType<typeof sTMock>) {
+    async function verifyRun(method: keyof ReturnType<typeof sTMock>) {
+      expect(superTestMock()[method]).not.toHaveBeenCalled();
 
+      await testedRequest.run({});
+
+      expect(superTestMock()[method]).toHaveBeenCalledWith('');
+      expect(superTestMock).toHaveBeenCalledWith(url);
     }
 
     it('GET - default', async () => {
       testedRequest = new TestedRequest({url, expect: [200]});
 
-      expect(superTestMock().get).not.toHaveBeenCalled();
-      await testedRequest.run({});
-      expect(superTestMock().get).toHaveBeenCalledWith('');
-      expect(superTestMock).toHaveBeenCalledWith(url);
+      await verifyRun('get');
     });
 
     it('HEAD', async () => {
       testedRequest = new TestedRequest({url, verb: 'HEAD', expect: [200]});
 
-      expect(superTestMock().head).not.toHaveBeenCalled();
-      await testedRequest.run({});
-      expect(superTestMock().head).toHaveBeenCalledWith('');
-      expect(superTestMock).toHaveBeenCalledWith(url);
+      await verifyRun('head');
     });
 
     it('POST', async () => {
       testedRequest = new TestedRequest({url, verb: 'POST', expect: [200]});
 
-      expect(superTestMock().post).not.toHaveBeenCalled();
-      await testedRequest.run({});
-      expect(superTestMock().post).toHaveBeenCalledWith('');
-      expect(superTestMock).toHaveBeenCalledWith(url);
+      await verifyRun('post');
     });
 
     it('PUT', async () => {
       testedRequest = new TestedRequest({url, verb: 'PUT', expect: [200]});
 
-      expect(superTestMock().put).not.toHaveBeenCalled();
-      await testedRequest.run({});
-      expect(superTestMock().put).toHaveBeenCalledWith('');
-      expect(superTestMock).toHaveBeenCalledWith(url);
+      await verifyRun('put');
     });
 
     it('PATCH', async () => {
       testedRequest = new TestedRequest({url, verb: 'PATCH', expect: [200]});
 
-      expect(superTestMock().patch).not.toHaveBeenCalled();
-      await testedRequest.run({});
-      expect(superTestMock().patch).toHaveBeenCalledWith('');
-      expect(superTestMock).toHaveBeenCalledWith(url);
+      await verifyRun('patch');
     });
 
     it('DELETE', async () => {
       testedRequest = new TestedRequest({url, verb: 'DELETE', expect: [200]});
 
-      expect(superTestMock().delete).not.toHaveBeenCalled();
-      await testedRequest.run({});
-      expect(superTestMock().delete).toHaveBeenCalledWith('');
-      expect(superTestMock).toHaveBeenCalledWith(url);
+      await verifyRun('delete');
     });
 
   });
@@ -270,7 +257,6 @@ describe('TestedRequest', () => {
       });
 
       it('custom response callback', () => {
-        (superTestMock().expect as Mock).mockImplementationOnce((cb => cb({mockResponse: 'foo'})));
         evaluatedProps.expect = [jest.fn()];
 
         testedRequest.applyExpect(evaluatedProps);
@@ -290,7 +276,26 @@ describe('TestedRequest', () => {
         evaluatedProps.expect = [true];
 
         testedRequest.applyExpect(evaluatedProps);
-        expect(superTestMock().expect).not.toHaveBeenCalled();
+        // calls the response setter only
+        expect(superTestMock().expect).toHaveBeenCalledTimes(1);
+      });
+
+    });
+
+    describe('applyErrorHandler', () => {
+
+      it('calls provided callback on error', () => {
+        const
+          mockError = new Error('Foo'),
+          mockResp = {status: 200, body: 'foo'};
+
+        (superTestMock().catch as Mock).mockImplementationOnce((cb) => cb(mockError));
+
+        evaluatedProps.error = jest.fn();
+        testedRequest.setResponse(mockResp as Response);
+        testedRequest.applyErrorHandler(evaluatedProps);
+
+        expect(evaluatedProps.error).toHaveBeenCalledWith(mockError, mockResp);
       });
 
     });

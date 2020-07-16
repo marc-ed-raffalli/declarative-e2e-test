@@ -1,6 +1,6 @@
 import {ITestSuite} from 'declarative-test-structure-generator';
-import {TestBlockDefinition} from './test-block';
 import {IWithName} from './shared';
+import {TestBlockDefinition} from './test-block';
 
 type arrayWithNameOrObject<T> = Array<T & IWithName> | { [k: string]: T };
 

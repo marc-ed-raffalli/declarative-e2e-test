@@ -24,6 +24,7 @@ const logger = Logger.getLogger();
 export class TestedRequest {
 
   private agent?: Test;
+  private response?: Response;
 
   constructor(
     private props: ITestedRequest,
@@ -33,6 +34,10 @@ export class TestedRequest {
 
   static buildTestedRequest(props: ITestedRequest, globalRequestConfig?: ITestRequestConfig) {
     return new TestedRequest(props, globalRequestConfig);
+  }
+
+  setResponse(resp: Response) {
+    this.response = resp;
   }
 
   evaluateRequestProps(context: any): IEvaluatedProps {
@@ -46,7 +51,8 @@ export class TestedRequest {
       this.initializeAgent(requestProps)
         .applyHeaders(requestProps)
         .applyBody(requestProps)
-        .applyExpect(requestProps, context, resolve);
+        .applyExpect(requestProps, context, resolve)
+        .applyErrorHandler(requestProps, context);
     });
   }
 
@@ -98,6 +104,9 @@ export class TestedRequest {
   }
 
   applyExpect(requestProps: IEvaluatedProps, context?: any, done?: fnType): TestedRequest {
+    // keep the response for error callback
+    this.agent = this.agent!.expect((resp) => this.setResponse(resp));
+
     this.agent = requestProps.expect
       .reduce((agent, expect) => {
         switch (typeof expect) {
@@ -105,7 +114,7 @@ export class TestedRequest {
           case 'string':
             return agent.expect(expect);
           case 'function':
-            return agent.expect((response: Response) => expect.call(context, response));
+            return agent.expect(expect.bind(context));
 
           case 'object':
             const
@@ -150,6 +159,20 @@ export class TestedRequest {
     return this;
   }
 
+  applyErrorHandler(requestProps: IEvaluatedProps, context?: any) {
+    this.agent!.catch((error) => {
+      logger.error(error);
+
+      if (requestProps.error) {
+        requestProps!.error.call(context, error, this.response as Response);
+        return;
+      }
+
+      logger.error(`Error caught, use property "error" in the request definition to access error the object`);
+    });
+
+    return this;
+  }
 }
 
 function evaluateRequestDefinition(
