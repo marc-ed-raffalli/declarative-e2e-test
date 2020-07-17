@@ -5,6 +5,6 @@ import {usersRoute} from './users';
 
 export const
   userRouter = Router()
-    .get('/profile', isAuthenticated, profileRoute)
+    .get('/profile/:username', isAuthenticated, profileRoute)
     .get('/users', [isAuthenticated, isAdmin], usersRoute)
 ;

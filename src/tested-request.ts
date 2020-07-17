@@ -44,11 +44,11 @@ export class TestedRequest {
     return evaluateRequestDefinition(this.props, this.globalRequestConfig, context);
   }
 
-  run(context: any) {
+  run(context: any, app?: any) {
     return new Promise<Response>((resolve, reject) => {
       const requestProps = this.evaluateRequestProps(context);
 
-      this.initializeAgent(requestProps)
+      this.initializeAgent(requestProps, app)
         .applyHeaders(requestProps)
         .applyBody(requestProps)
         .applyExpect(requestProps, context, resolve)
@@ -56,32 +56,33 @@ export class TestedRequest {
     });
   }
 
-  initializeAgent(requestProps: IEvaluatedProps) {
-    this.agent = this.createAgent(requestProps);
+  initializeAgent(requestProps: IEvaluatedProps, app?: any) {
+    this.agent = this.createAgent(requestProps, app);
     return this;
   }
 
-  createAgent(requestProps: IEvaluatedProps): Test {
+  createAgent(requestProps: IEvaluatedProps, app?: any): Test {
     const
       verb = requestProps.verb || 'GET',
-      agt = superTestAgent(requestProps.url);
+      agt = superTestAgent(app || requestProps.url),
+      route = app ? requestProps.url : '';
 
-    logger.debug(`${verb} Request to ${requestProps.url}`);
+    logger.debug(`${verb} Request to ${requestProps.url} - ${app ? 'app instance provided' : 'no app instance'}`);
 
     switch (verb) {
       case 'HEAD':
-        return agt.head('');
+        return agt.head(route);
       case 'POST':
-        return agt.post('');
+        return agt.post(route);
       case 'PUT':
-        return agt.put('');
+        return agt.put(route);
       case 'PATCH':
-        return agt.patch('');
+        return agt.patch(route);
       case 'DELETE':
-        return agt.delete('');
+        return agt.delete(route);
       case 'GET':
       default:
-        return agt.get('');
+        return agt.get(route);
     }
   }
 

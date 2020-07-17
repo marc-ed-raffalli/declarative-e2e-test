@@ -1,11 +1,14 @@
 import compression from 'compression';
 import {Express, json, NextFunction, Request, Response} from 'express';
 import helmet from 'helmet';
+import {Logger} from '../services/logger';
 import {ErrorHandler} from './error';
 import {jwtCheck} from './jwt';
 
 export * from './is-admin';
 export * from './is-authenticated';
+
+const logger = Logger.getLogger();
 
 export function applyMiddlewares(app: Express) {
   app.use(helmet());
@@ -20,7 +23,7 @@ export function applyEndMiddlewares(app: Express) {
     next();
   });
   app.use((error: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
-    console.error('Error caught in middleware:', error);
+    logger.error('Error caught in middleware:', error);
     res.status(error.code).send({error});
   });
 }

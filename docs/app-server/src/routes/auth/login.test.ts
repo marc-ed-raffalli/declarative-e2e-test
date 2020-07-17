@@ -6,7 +6,7 @@ import {hooks, routes} from '../../tests';
 const url = routes.login;
 export const loginTestDefinition: TestRequestSuiteDefinition = {
   'Login API': {
-    beforeEach: hooks.resetDemoTestData,
+    beforeEach: hooks.resetDemoTestData(),
     tests: {
       'Successful login': {
         tests: {

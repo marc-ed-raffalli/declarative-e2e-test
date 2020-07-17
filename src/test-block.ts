@@ -10,7 +10,8 @@ export class TestBlock {
 
   constructor(
     private definition: TestBlockDefinition & IWithName,
-    private globalRequestConfig: ITestRequestConfig = {}
+    private globalRequestConfig: ITestRequestConfig = {},
+    private app?: any
   ) {
   }
 
@@ -53,7 +54,7 @@ export class TestBlock {
               ? stepDef(resp)
               : stepDef;
 
-            return TestedRequest.buildTestedRequest(stepDef, this.globalRequestConfig).run(context);
+            return TestedRequest.buildTestedRequest(stepDef, this.globalRequestConfig).run(context, this.app);
           }),
         Promise.resolve<Response>({} as Response)
       );

@@ -14,4 +14,5 @@ export interface ITestConfig {
   logLevel?: logLevelType;
   api: IApiMapper;
   config?: ITestRequestConfig;
+  app?: any;
 }

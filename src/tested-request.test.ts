@@ -51,6 +51,16 @@ describe('TestedRequest', () => {
       expect(superTestMock).toHaveBeenCalledWith(url);
     }
 
+    it('provides app instance to supertest and url to verb', async () => {
+      const appStub = {app: 'stub'};
+
+      testedRequest = new TestedRequest({url, expect: [200]});
+
+      await testedRequest.run({}, appStub);
+      expect(superTestMock).toHaveBeenCalledWith({app: 'stub'});
+      expect(superTestMock().get).toHaveBeenCalledWith(url);
+    });
+
     it('GET - default', async () => {
       testedRequest = new TestedRequest({url, expect: [200]});
 
@@ -148,7 +158,9 @@ describe('TestedRequest', () => {
   describe('run', () => {
 
     it('calls methods with extracted props', async () => {
-      const stub: IEvaluatedProps = {url: 'stub-url', expect: [200]};
+      const
+        appStub = {app: 'stub'},
+        stub: IEvaluatedProps = {url: 'stub-url', expect: [200]};
 
       testedRequest = new TestedRequest(props);
 
@@ -158,10 +170,10 @@ describe('TestedRequest', () => {
       spyOn(testedRequest, 'applyBody').and.callThrough();
       spyOn(testedRequest, 'applyExpect').and.callThrough();
 
-      await testedRequest.run(context);
+      await testedRequest.run(context, appStub);
 
       expect(testedRequest.evaluateRequestProps).toHaveBeenCalledWith(context);
-      expect(testedRequest.initializeAgent).toHaveBeenCalledWith(stub);
+      expect(testedRequest.initializeAgent).toHaveBeenCalledWith(stub, appStub);
       expect(testedRequest.applyHeaders).toHaveBeenCalledWith(stub);
       expect(testedRequest.applyBody).toHaveBeenCalledWith(stub);
       expect(testedRequest.applyExpect).toHaveBeenCalledWith(stub, context, expect.any(Function));

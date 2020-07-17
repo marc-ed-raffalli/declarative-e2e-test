@@ -2,6 +2,7 @@ import {sign} from 'jsonwebtoken';
 import {ErrorHandler} from '../middlewares/error';
 import {applyPaginationBound, IPaginatedResponse, IPaginationParams} from '../models/pagination';
 import {IMockUser, IMockUserPublicData} from '../models/user';
+import {Logger} from './logger';
 
 // ----------------------------------------
 // DEMO ONLY
@@ -14,9 +15,10 @@ interface IMockDB {
   activeTokens: { [username: string]: Set<string> };
 }
 
+const logger = Logger.getLogger();
 let mockDB: IMockDB;
 
-resetTestDB();
+resetInMemoryTestDB();
 
 export const
   JWT_SECRET = 'the very $€©®€t demo token which should never be hard coded';
@@ -26,12 +28,14 @@ export interface ITokenPayload extends Pick<IMockUser, 'username' | 'role'> {
   tokenId: string;
 }
 
-export function resetTestDB() {
+export function resetInMemoryTestDB() {
+  logger.trace('Resetting demo test data');
+
   mockDB = {
     users: {
       theAdmin: {username: 'theAdmin', password: 'theAdmin-pwd', role: 'admin', loginAttempts: 0},
       johnDoe: {username: 'johnDoe', password: 'johnDoe-pwd', role: 'user', loginAttempts: 0},
-      janeDoe: {username: 'janeDoe', password: 'janeDoe-pwd', role: 'user', enabled: false, loginAttempts: 0},
+      janeDoe: {username: 'janeDoe', password: 'janeDoe-pwd', role: 'user', enabled: false, loginAttempts: 0}
     },
     activeTokens: {}
   };

@@ -26,7 +26,8 @@
       "kebab-case"
     ],
     "no-implicit-dependencies": [
-      true
+      true,
+      "dev"
     ],
     "no-object-literal-type-assertion": false,
     "object-literal-sort-keys": false,

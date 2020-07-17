@@ -16,6 +16,7 @@ describe('TestRunner', () => {
   let
     testRunner: TestRunner,
     url: string,
+    appStub: any,
     api: IApiMapper,
     testConfig: ITestConfig,
     definition: TestRequestSuiteDefinition
@@ -26,9 +27,11 @@ describe('TestRunner', () => {
     (run as jest.Mock).mockClear();
 
     // mock for simplicity
+    appStub = {app: 'stub'};
     api = {it: jest.fn() as any} as IApiMapper;
+
     // @ts-ignore
-    testConfig = {api, config: {url: 'foo'}} as ITestConfig;
+    testConfig = {api, config: {url: 'foo'}, app: appStub} as ITestConfig;
     url = 'https://mock-url.ie';
   });
 
@@ -50,8 +53,8 @@ describe('TestRunner', () => {
       ];
       TestRunner.buildTestRunner(definition, testConfig);
 
-      expect(TestBlock).toHaveBeenCalledWith({name: 'Foo test 1', url, expect: 200}, testConfig.config);
-      expect(TestBlock).toHaveBeenCalledWith({name: 'Bar test 1', url, expect: 200}, testConfig.config);
+      expect(TestBlock).toHaveBeenCalledWith({name: 'Foo test 1', url, expect: 200}, testConfig.config, appStub);
+      expect(TestBlock).toHaveBeenCalledWith({name: 'Bar test 1', url, expect: 200}, testConfig.config, appStub);
     });
 
     it('converts from object', () => {
@@ -73,8 +76,8 @@ describe('TestRunner', () => {
       };
       TestRunner.buildTestRunner(definition, testConfig);
 
-      expect(TestBlock).toHaveBeenCalledWith({name: 'Foo test 1', url, expect: 200}, testConfig.config);
-      expect(TestBlock).toHaveBeenCalledWith({name: 'Bar test 1', url, expect: 200}, testConfig.config);
+      expect(TestBlock).toHaveBeenCalledWith({name: 'Foo test 1', url, expect: 200}, testConfig.config, appStub);
+      expect(TestBlock).toHaveBeenCalledWith({name: 'Bar test 1', url, expect: 200}, testConfig.config, appStub);
     });
 
   });

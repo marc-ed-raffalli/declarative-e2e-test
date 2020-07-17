@@ -1,7 +1,10 @@
 import {NextFunction, Request, Response} from 'express';
 import {verify} from 'jsonwebtoken';
 import {ITokenPayload, JWT_SECRET} from '../services';
+import {Logger} from '../services/logger';
 import {ErrorHandler} from './error';
+
+const logger = Logger.getLogger();
 
 /**
  * Simply checks if an "authorization" header is provided.
@@ -12,7 +15,7 @@ export async function jwtCheck(req: Request, res: Response, next: NextFunction) 
     const authorization = req.headers.authorization;
 
     if (!authorization) {
-      console.log('No "authorization" header');
+      logger.trace('No "authorization" header for request', req.path);
       return next();
     }
 
@@ -21,7 +24,7 @@ export async function jwtCheck(req: Request, res: Response, next: NextFunction) 
       ...res.locals,
       user
     };
-    console.log('Header "authorization" found for user', user.username);
+    logger.trace('Header "authorization" found for user:', user.username);
 
     next();
 

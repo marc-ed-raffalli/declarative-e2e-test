@@ -12,12 +12,15 @@ export class TestRunner {
   constructor(private readonly testDefinition: TestSuiteDefinition, private readonly api: IApiMapper) {
   }
 
-  static buildTestRunner(testRequestSuiteDefinition: TestRequestSuiteDefinition, {api, config, logLevel}: ITestConfig) {
+  static buildTestRunner(
+    testRequestSuiteDefinition: TestRequestSuiteDefinition,
+    {api, config, logLevel, app}: ITestConfig
+  ) {
     Logger.setLogLevel(logLevel);
     logger.trace('Mapping the test request definitions to target definition');
     const testDefinition = reduceList(
       testRequestSuiteDefinition,
-      (def) => convertToTestSuiteDefinition(def, config)
+      (def) => convertToTestSuiteDefinition(def, config, app)
     );
     logger.trace('Mapping - complete');
 
@@ -35,14 +38,19 @@ export class TestRunner {
  * Recursively converts ITestRequestSuite to ITestSuite format.
  * @param def
  * @param config
+ * @param app
  */
-function convertToTestSuiteDefinition(def: ITestRequestSuite & IWithName, config?: ITestRequestConfig): ITestSuite {
+function convertToTestSuiteDefinition(
+  def: ITestRequestSuite & IWithName,
+  config: ITestRequestConfig = {},
+  app?: any
+): ITestSuite {
   return {
     ...def,
     tests: reduceList(def.tests, (d) =>
       'tests' in d
-        ? convertToTestSuiteDefinition(d, config)
-        : new TestBlock(d, config).generate()
+        ? convertToTestSuiteDefinition(d, config, app)
+        : new TestBlock(d, config, app).generate()
     )
   };
 }

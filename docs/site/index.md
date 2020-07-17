@@ -117,7 +117,7 @@ Why `declarative-e2e-test`?
 
 - It allows to **focus on what matters**: request => response
 - It helps to write **readable** and **maintainable** e2e tests
-- It is **flexible**: test library agnostic
+- It is **flexible**: compatible with any popular Node test frameworks
 
 The library is written in TypeScript with a very well defined API, each feature is illustrated below with code examples.
 
@@ -188,6 +188,32 @@ The code snippet above completes the following:
 - Sends a request to the url: `SERVER_URL`
 - Verifies the response received has status `200`
 
+### Using with a Node server
+
+[Supertest][supertest] supports passing an `http.Server`, or a `Function` to `request()`.
+This API is also available with `declarative-e2e-test`.
+
+In the example below, an Express application is created and the `app` instance is passed in the `run` options.
+
+**app.ts**
+```typescript
+const express = require('express');
+
+export const app = express();
+// ...
+```
+
+**app.test.ts**
+```typescript
+import {api, run} from 'declarative-e2e-test';
+import {app} from '../app';
+
+run(appTestDefinition, {api: api.jest, app});
+```
+
+As the app is passed as a reference, [Supertest][supertest] will automatically start the app if no instance is started.
+It avoids having to start the server separately and allows to share the same execution context as the tests.
+Without passing the `app` instance, the server needs to be treated as a complete black box.
 
 ## Test Definition
 
@@ -950,7 +976,7 @@ Please share your feedback and report the encountered issues on the [project's i
 
 MIT License
 
-Copyright (c) 2020 Marc-Ed Raffalli
+Copyright (c) 2020 [Marc-Ed Raffalli](https://marc-ed-raffalli.github.io/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,19 +1,14 @@
-import express from 'express';
-import {applyEndMiddlewares, applyMiddlewares} from './middlewares';
-import {applyRoutes} from './routes';
+import {AddressInfo} from 'net';
+import {app} from './app';
 
-const
-  app = express(),
-  port = 3000;
+const port = 3000;
 
-applyMiddlewares(app);
-applyRoutes(app);
-applyEndMiddlewares(app);
+export const server = app.listen(process.env.PORT || port, () => {
+  const address = server.address();
 
-app.listen(port, () => {
   // tslint:disable-next-line:no-console
   console.log(`
-    Example app listening at http://127.0.0.1:${port}
+    Example app listening at http://127.0.0.1:${(address as AddressInfo).port}
     -------
     status route: /
   `);

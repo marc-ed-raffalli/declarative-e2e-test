@@ -1,12 +1,5 @@
-import {post} from 'superagent';
 import {ILoginPayload} from '../routes/auth/login';
-import {routes, SERVER_URL} from './global-test-config';
-
-export function sendLogin(credentials: ILoginPayload): Promise<string> {
-  return post(`${SERVER_URL}${routes.login}`)
-    .send(credentials)
-    .then(resp => resp.body.token);
-}
+import {login, resetInMemoryTestDB} from '../services';
 
 export interface ITestData {
   token: string;
@@ -14,12 +7,11 @@ export interface ITestData {
 
 export const
   hooks = {
-    resetDemoTestData: () =>
-      post(`${SERVER_URL}${routes.resetTestData}`),
+    resetDemoTestData: () => resetInMemoryTestDB,
 
     setTokenForUser: (user: ILoginPayload) =>
       async function (this: ITestData) {
-        this.token = await sendLogin(user);
+        this.token = await login(user.username, user.password) as string;
       }
   };
 

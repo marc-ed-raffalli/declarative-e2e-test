@@ -1,11 +1,14 @@
 import {TestRequestSuiteDefinition} from 'declarative-e2e-test';
 import {getAuthorizationHeaders, hooks, routes} from '../../tests';
 
-const url = routes.logout;
+const
+  url = routes.logout,
+  johnDoeProfileUrl = `${routes.profileData}/johnDoe`;
+
 export const logoutTestDefinition: TestRequestSuiteDefinition = {
   'Logout API': {
     beforeEach: [
-      hooks.resetDemoTestData,
+      hooks.resetDemoTestData(),
       hooks.setTokenForUser({username: 'johnDoe', password: 'johnDoe-pwd'})
     ],
     tests: {
@@ -23,7 +26,7 @@ export const logoutTestDefinition: TestRequestSuiteDefinition = {
       'correctly invalidates the token': {
         steps: [
           {
-            url: routes.profileData,
+            url: johnDoeProfileUrl,
             verb: 'GET',
             headers: getAuthorizationHeaders,
             expect: 200
@@ -35,7 +38,7 @@ export const logoutTestDefinition: TestRequestSuiteDefinition = {
             expect: 200
           },
           {
-            url: routes.profileData,
+            url: johnDoeProfileUrl,
             verb: 'GET',
             headers: getAuthorizationHeaders,
             expect: 401

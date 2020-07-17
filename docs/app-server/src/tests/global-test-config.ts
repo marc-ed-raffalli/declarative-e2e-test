@@ -1,10 +1,8 @@
 import {ITestConfig} from 'declarative-e2e-test';
 import {Response} from 'supertest';
-
-const url = 'http://127.0.0.1:3000';
+import {app} from '../app';
 
 export const
-  SERVER_URL = url,
   routes = {
     status: '/',
     login: '/api/auth/login',
@@ -15,9 +13,15 @@ export const
   };
 
 export const config: Omit<ITestConfig, 'api'> = {
+  // optional, set tested application
+  // https://github.com/visionmedia/supertest/
+  app,
+
   logLevel: 'SILENT',
   config: {
-    url,
+    // server base URL should be set here to avoid duplication across tests
+    // url containing domain / port is NOT compatible with the usage of the app instance
+    // url: 'http://127.0.0.1:3000',
     expect: [
       {
         headers: {

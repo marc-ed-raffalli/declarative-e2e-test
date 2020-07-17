@@ -3,7 +3,7 @@ const codesToMessage = {
   401: 'Unauthorized',
   403: 'Forbidden',
   429: 'Too Many Requests',
-  500: 'Internal Server Error',
+  500: 'Internal Server Error'
 };
 
 export class ErrorHandler {
