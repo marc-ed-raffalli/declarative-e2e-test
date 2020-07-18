@@ -1415,15 +1415,15 @@ decimal.js@^10.2.0:
   integrity sha512-vDPw+rDgn3bZe1+F/pyEwb1oMG2XTlRVgAa6B4KccTEpYgF8w6eQllVbQcfIJnZyvzFtFpxnpGtx8dd7DJp/Rw==
 
 declarative-e2e-test@../..:
-  version "0.1.0"
+  version "1.0.0"
   dependencies:
-    declarative-test-structure-generator "^1.0.2"
+    declarative-test-structure-generator "^1.1.0"
     supertest "^4.0.2"
 
-declarative-test-structure-generator@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/declarative-test-structure-generator/-/declarative-test-structure-generator-1.0.2.tgz#8316adcbf37aca05fc76bba86a53af660494d167"
-  integrity sha512-vy6RFBlBovp9EY7D97k9IDNTmTM+fPo/W7TmRzXu/aehW1P2BEsdfrmf9tEctqFsfjslUhUb3JOHzp0QrvxC1A==
+declarative-test-structure-generator@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/declarative-test-structure-generator/-/declarative-test-structure-generator-1.1.1.tgz#4f499bbda249d3545eb26ff08fac8f00765cf585"
+  integrity sha512-EhugvUJjhRaNYTYPqXlko0cmA3Tc2EycanHngBamHGFNMdxxWLiHfCqqEM8tnnmzhracBRElWYaQZJXdQatBOw==
 
 decode-uri-component@^0.2.0:
   version "0.2.0"
