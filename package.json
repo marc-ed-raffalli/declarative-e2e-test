@@ -40,7 +40,7 @@
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "declarative-test-structure-generator": "^1.0.2",
+    "declarative-test-structure-generator": "^1.1.0",
     "supertest": "^4.0.2"
   },
   "devDependencies": {

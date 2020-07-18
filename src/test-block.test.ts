@@ -73,7 +73,7 @@ describe('TestBlock', () => {
       const props = {name, url, expect: 200};
       generate(props);
 
-      await res.test();
+      await res.test(jest.fn());
 
       expect(TestedRequest.buildTestedRequest).toHaveBeenCalledWith(props, {});
     });
@@ -96,7 +96,7 @@ describe('TestBlock', () => {
 
         generate(props);
 
-        await res.test();
+        await res.test(jest.fn());
 
         expect(TestedRequest.buildTestedRequest).toHaveBeenNthCalledWith(1, {url: 'foo', expect: 200}, {});
         expect(TestedRequest.buildTestedRequest).toHaveBeenNthCalledWith(2, {url: 'bar', expect: 201}, {});
