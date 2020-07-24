@@ -1,6 +1,6 @@
 # declarative-e2e-test
 
-Easy to write, easy to maintain maintain, clutter free :)
+Easy to write, easy to maintain, clutter free :)
 
 [![Build Status](https://travis-ci.org/marc-ed-raffalli/declarative-e2e-test.svg?branch=master)](https://travis-ci.org/marc-ed-raffalli/declarative-e2e-test)
 [![Coverage Status](https://coveralls.io/repos/github/marc-ed-raffalli/declarative-e2e-test/badge.svg?branch=master)](https://coveralls.io/github/marc-ed-raffalli/declarative-e2e-test?branch=master)
@@ -13,13 +13,13 @@ Easy to write, easy to maintain maintain, clutter free :)
 import {api, run, TestRequestSuiteDefinition} from 'declarative-e2e-test';
 
 const exampleTestDefinition: TestRequestSuiteDefinition = {
-  'returns user\'s data': {
-    url: `${SERVER_URL}/user/profile`,
+  'returns user data': {
+    url: '/user/profile',
     headers: {authorization: 'some-auth-token'},
     expect: {username: 'johnDoe', role: 'user'}
   },
   'returns 401 when not authenticated': {
-    url: `${SERVER_URL}/user/profile`,
+    url: '/user/profile',
     expect: 401
   }
 };
@@ -50,9 +50,7 @@ A testing library of the like of [Jest][jest], [Jasmine][jasmine] or [Mocha][moc
 
 ## Documentation
 
-<a href="https://marc-ed-raffalli.github.io/declarative-e2e-test" style="font-size: 3rem">
-  View project's page
-</a>
+[View project's homepage][projectHomePage]
 
 ## Issues
 
@@ -61,7 +59,7 @@ Please share your feedback and report the encountered issues on the
 
 
 
-[projectPage]: https://marc-ed-raffalli.github.io/declarative-e2e-test
+[projectHomePage]: https://marc-ed-raffalli.github.io/declarative-e2e-test
 [projectIssues]: https://github.com/marc-ed-raffalli/declarative-e2e-test/issues
 
 [jest]: https://jestjs.io/

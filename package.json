@@ -25,6 +25,7 @@
     "type": "git",
     "url": "https://github.com/marc-ed-raffalli/declarative-e2e-test"
   },
+  "homepage": "https://marc-ed-raffalli.github.io/declarative-e2e-test",
   "bugs": "https://github.com/marc-ed-raffalli/declarative-e2e-test/issues",
   "scripts": {
     "build": "run-s clean lint test compile",

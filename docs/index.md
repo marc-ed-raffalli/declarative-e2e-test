@@ -4,7 +4,7 @@ sidemenu: true
 
 # declarative-e2e-test
 
-{% include lead.html message='Easy to write, easy to maintain maintain, clutter free :)' %}
+{% include lead.html message='Easy to write, easy to maintain, clutter free :)' %}
 
 [![Build Status](https://travis-ci.org/marc-ed-raffalli/declarative-e2e-test.svg?branch=master)](https://travis-ci.org/marc-ed-raffalli/declarative-e2e-test)
 [![Coverage Status](https://coveralls.io/repos/github/marc-ed-raffalli/declarative-e2e-test/badge.svg?branch=master)](https://coveralls.io/github/marc-ed-raffalli/declarative-e2e-test?branch=master)
@@ -17,13 +17,13 @@ sidemenu: true
 import {api, run, TestRequestSuiteDefinition} from 'declarative-e2e-test';
 
 const exampleTestDefinition: TestRequestSuiteDefinition = {
-  'returns user\'s data': {
-    url: `${SERVER_URL}/user/profile`,
+  'returns user data': {
+    url: '/user/profile',
     headers: {authorization: 'some-auth-token'},
     expect: {username: 'johnDoe', role: 'user'}
   },
   'returns 401 when not authenticated': {
-    url: `${SERVER_URL}/user/profile`,
+    url: '/user/profile',
     expect: 401
   }
 };
