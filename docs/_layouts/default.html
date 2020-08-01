@@ -4,11 +4,16 @@ layout: compress
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{{site.title}} {% if page.title %} - {{page.title}}{% endif %}</title>
+  {% capture title %}{{site.title}} {% if page.title %} - {{page.title}}{% endif %}{% endcapture %}
+  <title>{{title}}</title>
 
   <meta name="author" content="{{site.author_name}}">
   <meta name="description" content="{{page.description}}">
   <meta name="keywords" content="{{page.keywords | join: ' '}}">
+
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{page.description}}">
+  <meta property="og:locale" content="en_US">
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

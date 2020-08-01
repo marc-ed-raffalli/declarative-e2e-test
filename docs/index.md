@@ -1,4 +1,20 @@
 ---
+title:       Documentation
+description: declarative-e2e-test is a Node.js library designed to write e2e tests for any backends in a declarative way.
+             The library is written in TypeScript with a very well defined API, as well as a detailed online documentation.
+             Easy to write, easy to maintain, clutter free :)
+keywords:   [
+API,
+automation,
+declarative,
+e2e,
+HTTP,
+JS,
+REST,
+Supertest,
+test,
+TypeScript
+]
 sidemenu: true
 ---
 
@@ -11,25 +27,42 @@ sidemenu: true
 [![NPM version](https://img.shields.io/npm/v/declarative-e2e-test.svg)](https://www.npmjs.com/package/declarative-e2e-test)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/marc-ed-raffalli/declarative-e2e-test/blob/master/LICENSE)
 
-`declarative-e2e-test` allows to write tests for any backend in an object definition style.
+`declarative-e2e-test` is a Node.js library designed to write e2e tests for any backends in a declarative way.
 
 ```typescript
 import {api, run, TestRequestSuiteDefinition} from 'declarative-e2e-test';
 
 const exampleTestDefinition: TestRequestSuiteDefinition = {
-  'returns user data': {
-    url: '/user/profile',
-    headers: {authorization: 'some-auth-token'},
-    expect: {username: 'johnDoe', role: 'user'}
-  },
-  'returns 401 when not authenticated': {
-    url: '/user/profile',
-    expect: 401
+  'Profile API': {
+    tests: {
+      'returns user data': {
+        url: '/user/profile',
+        headers: {authorization: 'some-auth-token'},
+        expect: {username: 'johnDoe', role: 'user'}
+      },
+      'returns 401 when not authenticated': {
+        url: '/user/profile',
+        expect: 401
+      }
+    }
   }
 };
 
 run(exampleTestDefinition, {api: api.jest});
 ```
+
+## Features
+
+- Makes HTTP request from node.js and assert response
+- Compatible with major Node testing libraries
+- Generates the tests and test suites where the requests are performed
+- Flexible response assertion
+    - status
+    - headers / payload
+    - multiple / default
+- Test hooks / Skip / Only
+- Single request flow / series of requests
+- Easy integration with Express application instance
 
 ## TLDR;
 
