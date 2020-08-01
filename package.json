@@ -1,6 +1,6 @@
 {
   "name": "declarative-e2e-test",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Declaration driven test generator for REST endpoints",
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
